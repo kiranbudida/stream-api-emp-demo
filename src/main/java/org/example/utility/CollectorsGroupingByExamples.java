@@ -2,10 +2,7 @@ package org.example.utility;
 
 import org.example.entity.Employee;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CollectorsGroupingByExamples {
@@ -71,5 +68,67 @@ public class CollectorsGroupingByExamples {
                 ));
 
         System.out.println(empNamesByDept);
+    }
+
+    public void groupByEmpNamesFirstLetterGroupByDept() {
+        Map<String, Map<Character, List<String>>> list = employees.stream()
+            .collect(Collectors.groupingBy(
+                Employee::getDepartment,
+                Collectors.mapping(
+                    Employee::getName,
+                    Collectors.groupingBy(
+                            e->e.charAt(0),
+                            Collectors.toList())
+                    )
+                )
+            );
+
+        System.out.println(list);
+    }
+
+    public void groupByEmpNamesLengthGroupByDept() {
+        Map<String, Map<String, List<String>>> list = employees.stream()
+                .collect(Collectors.groupingBy(
+                Employee::getDepartment,
+                    Collectors.mapping(
+                           Employee::getName,
+                           Collectors.groupingBy(
+                                   e->e.length() > 3 ? "Long Name" : "Short Name",
+                                   Collectors.toList()
+                           )
+                    )
+        ));
+
+        System.out.println(list);
+    }
+
+    public void getAvgSalByNameFirstCharByDept() {
+        Map<String, Map<Character, Double>> list = employees.stream().collect(Collectors.groupingBy(
+                Employee::getDepartment,
+                    Collectors.groupingBy(
+                            e->e.getName().charAt(0),
+                            Collectors.averagingDouble(Employee::getSalary)
+                    )
+                )
+        );
+
+        System.out.println(list);
+    }
+
+    public void findFirstNonRepeatingCharInGivenStr() {
+        String input = "javja";
+        Character nonRepeatingChar = input.chars()
+                .mapToObj(c->(char)c)
+                .collect(Collectors.groupingBy(
+                        c->c,
+                        LinkedHashMap::new,
+                        Collectors.counting()
+                ))
+                .entrySet().stream()
+                .filter(e->e.getValue() == 1)
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
+        System.out.println("First non repeating char: "+nonRepeatingChar);
     }
 }

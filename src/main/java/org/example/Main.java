@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) {
         CollectorsGroupingByExamples examples = new CollectorsGroupingByExamples();
 
-
         //1. Group employees by department
         // examples.getEmpListByDept();
 
@@ -24,5 +23,18 @@ public class Main {
 
         //5. Collect employee names per department (not whole objects)
         // examples.getEmpNamesByDept();
+
+        //6. Group by department → collect employee names grouped by first letter
+        //examples.groupByEmpNamesFirstLetterGroupByDept();
+
+        //7. Group by department → collect names by long(greater than 3) and short category
+        //examples.groupByEmpNamesLengthGroupByDept();
+
+        //8 Group by department → average salary of employees whose name starts with a given letter
+        //examples.getAvgSalByNameFirstCharByDept();
+
+        //9 Find the first non-repeated character in a string
+        //examples.findFirstNonRepeatingCharInGivenStr();
+
     }
 }
